@@ -1,5 +1,7 @@
 package edu.citytech.stocks.stocks.model;
 
+//jonathan ortiz test
+
 public class Stock implements Comparable<Stock> //implement comparable to compare stock to itself
 {
     private String symbol;

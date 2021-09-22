@@ -61,7 +61,7 @@ public class T2_StockByMonth {
         //for (Map<Integer, Float> name : stock.getDividends().getMonths())
             //System.out.println(name);
 
-        int input = 6;
+        int input = 6; //Test as input so later we can expand to GUI
 
         for (Map<Integer, Float> name : stock.getDividends().getMonths())
             if (name.containsKey(input)){

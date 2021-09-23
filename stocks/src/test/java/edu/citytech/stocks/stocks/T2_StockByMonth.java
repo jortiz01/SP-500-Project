@@ -5,7 +5,9 @@ import edu.citytech.stocks.stocks.model.Stock;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import static java.util.Arrays.stream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -63,16 +65,63 @@ public class T2_StockByMonth {
 
         int input = 6; //Test as input so later we can expand to GUI
 
-        for (Map<Integer, Float> name : stock.getDividends().getMonths())
+        //iterate through map
+        //usual for loop
+       for (Map<Integer, Float> name : stock.getDividends().getMonths())
             if (name.containsKey(input)){
                 actual = true;
                 System.out.println(stock.getCompanyName() + " pays a dividend on the month: " + input);
+                break;
             }
 
         boolean expected = true;
+        assertEquals(expected, actual);
+    }
 
 
 
+
+    @Test
+    @DisplayName("Search By Month Number FUNCTIONAL : Look for 3 - March")
+    void t2_searchByMonthNumber(){
+        //Text Block
+        String jsonStock = """ 
+                        
+                        {
+                            "symbol": "BAC",
+                            "dividends": {
+                                "frequency": "quarterly",
+                                "months": [
+                                    {
+                                        "9": 0.21
+                                    },
+                                    {
+                                        "6": 0.18
+                                    },
+                                    {
+                                        "3": 0.18
+                                    },
+                                    {
+                                        "12": 0.18
+                                    }
+                                ],
+                                "yield": 0.01849675592909907
+                            },
+                            "price": 40.27,
+                            "marketCapInBillions": 338.868179288,
+                            "companyName": "Bank Of America Corp.",
+                            "momentumScore": 50.24752475247524,
+                            "sector": "Financials",
+                            "subSector": "Diversified Banks"
+                        }            
+                """;
+
+        Gson gson = new Gson();
+        var stock = gson.fromJson(jsonStock, Stock.class);
+        var months = stock.getDividends().getMonths();
+
+        boolean actual = stream(months).anyMatch(map -> map.containsKey(3));
+        boolean expected = true;
 
 
         assertEquals(expected, actual);

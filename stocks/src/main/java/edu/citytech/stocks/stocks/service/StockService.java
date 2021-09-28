@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.stream;
+
 //Service is Business Logic, pulling data from data repository layer
 
 @Service
@@ -22,6 +24,9 @@ public class StockService {
     //predicates to avoid numerous if statements for rules
     private Predicate<Stock> gtDiv100B = stock -> stock.getMarketCapInBillions() > 100;
     private Predicate<Stock> paysDiv = stock -> stock.getDividends().getYield() > 0;
+
+
+
 
     public List<Stock> getAllStocks(int size){
         var data = stockList
@@ -42,6 +47,44 @@ public class StockService {
 
         return data;
     }
+
+    public List<Stock> getStocksByMonthName(String monthName){
+
+        Predicate<Stock> byMonth = stock -> {
+            var months = stock.getDividends().getMonths();
+            int monthNumber = CalculateMonthService.getMonthName(monthName);
+            boolean actual = stream(months).anyMatch( map -> map.containsKey(monthNumber));
+
+            return actual;
+        };
+
+        var data = stockList
+                .stream()
+                .filter(byMonth)
+                .collect(Collectors.toList());
+
+        return data;
+    }
+
+    public List<Stock> getStocksByMonthNumber(int monthNumber){
+
+        Predicate<Stock> byMonth = stock -> {
+            var months = stock.getDividends().getMonths();
+            int month = CalculateMonthService.getMonthNum(monthNumber);
+            boolean actual = stream(months).anyMatch( map -> map.containsValue(monthNumber));
+
+            return actual;
+        };
+
+        var data = stockList
+                .stream()
+                .filter(byMonth)
+                .collect(Collectors.toList());
+
+        return data;
+    }
+
+    //monthcode = 2048 have to do binary thing, monthNumber just containskey/containsvalue through the hashmap
 
 
 }

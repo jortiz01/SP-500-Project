@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.lang.Integer.parseInt;
 
 @RestController
 @RequestMapping("sp500")
@@ -31,5 +34,33 @@ public class StockController {
         var data = stockService.top10Dividends();
         return data;
     }
+
+
+    //"/sp500/whatif-monthly-dividends?monthName=Jan"
+    @GetMapping("whatif-monthly-dividends")
+    List<Stock> whatIfMonthlyDividends (@RequestParam(defaultValue = "Jan") String monthName){
+        var data = stockService.getStocksByMonthName(monthName);
+        return data;
+    }
+
+    /*/sp500/whatif-monthly-dividends?monthcode=2048
+    @GetMapping("whatif-monthly-dividends")
+    List<Stock> whatIfMonthlyDividends (@RequestParam(defaultValue = "2048") Integer monthCode ){
+        var data = stockService.getStocksByMonthName(monthCode);
+        return data;
+    }*/
+
+    /*
+    ///sp500/whatif-monthly-dividends?monthNumber=3
+    @GetMapping("whatif-monthly-dividends")
+    List<Stock> whatIfMonthlyDividends (@RequestParam(defaultValue = "1") int monthNumber ){
+        var data = stockService.getStocksByMonthNumber(monthNumber);
+        return data;
+    }
+
+   
+     */
+
+
 
 }

@@ -1,13 +1,10 @@
 package edu.citytech.stocks.stocks;
 
 import com.google.gson.Gson;
-import edu.citytech.stocks.stocks.model.Stock;
 import edu.citytech.stocks.stocks.model.StockByMonthCode;
-import edu.citytech.stocks.stocks.service.CalculateMonthCodeService;
+import edu.citytech.stocks.stocks.service.CalculateMonthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
 
 import static java.util.Arrays.stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,7 +46,7 @@ public class T3_StockByMonthCode {
 
     //@Test
     //@DisplayName("FUNCTIONAL Search By Month Code : Look for 2340")
-    void t2_searchByMonthCode(){
+    void tHW_searchByMonthCode(){
 
         //fix THIS test as homework
 
@@ -71,7 +68,7 @@ public class T3_StockByMonthCode {
 
         int[] months = new int[] {0,3,6,9,12};
 
-        int monthCode = CalculateMonthCodeService.getMonthCode(months);
+        int monthCode = CalculateMonthService.getMonthCode(months);
         var actual = monthCode;
         var expected = 2340;
         assertEquals(expected, actual);
@@ -82,7 +79,7 @@ public class T3_StockByMonthCode {
 
         int[] months = new int[] {1,2,3};
 
-        int monthCode = CalculateMonthCodeService.getMonthCode(months);
+        int monthCode = CalculateMonthService.getMonthCode(months);
         var actual = monthCode;
         var expected = 7;
         assertEquals(expected, actual);
@@ -93,7 +90,7 @@ public class T3_StockByMonthCode {
 
         int[] months = new int[] {1,2,3,4,5,6,7,8,9,10,11,12};
 
-        int monthCode = CalculateMonthCodeService.getMonthCode(months);
+        int monthCode = CalculateMonthService.getMonthCode(months);
         var actual = monthCode;
         var expected = 4095;
         assertEquals(expected, actual);

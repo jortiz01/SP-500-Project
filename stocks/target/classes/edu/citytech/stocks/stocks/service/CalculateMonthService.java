@@ -25,6 +25,24 @@ public class CalculateMonthService {
         map.put("Dec",12);
     }
 
+    private static Map<Integer, Integer> mapCode = new HashMap<>();
+    static{
+        System.out.println(new Date());
+        mapCode.put(0,0);
+        mapCode.put(1,1);
+        mapCode.put(2,2);
+        mapCode.put(4,3);
+        mapCode.put(8,4);
+        mapCode.put(16,5);
+        mapCode.put(32,6);
+        mapCode.put(64,7);
+        mapCode.put(128,8);
+        mapCode.put(256,9);
+        mapCode.put(512,10);
+        mapCode.put(1024,11);
+        mapCode.put(2048,12);
+    }
+
 
 
     public static int xgetMonthCode(int... months){ //spread operator
@@ -43,7 +61,6 @@ public class CalculateMonthService {
 
         int total = Arrays.stream(months).filter(e -> e != 0)
                         .map(month -> 1 << (month - 1)).sum();
-
         return total;
     }
 
@@ -54,7 +71,6 @@ public class CalculateMonthService {
             return -1;
 
         int monthNumber = map.get(monthName);
-
         return monthNumber;
     }
 
@@ -64,6 +80,15 @@ public class CalculateMonthService {
             return -1;
 
         int monthNumber = map.get(monthNum);
+        return monthNumber;
+    }
+
+    public static int getMonthNameByCode(Integer monthCode) {
+
+        if (!mapCode.containsKey(monthCode))
+            return -1;
+
+        int monthNumber = mapCode.get(monthCode);
 
         return monthNumber;
     }

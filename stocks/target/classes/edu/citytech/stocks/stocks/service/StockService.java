@@ -17,7 +17,8 @@ import static java.util.Arrays.stream;
 public class StockService {
 
     private List<Stock> stockList;
-    public StockService(){
+
+    public StockService() {
         stockList = StockRepository.findAll();
     }
 
@@ -26,9 +27,7 @@ public class StockService {
     private Predicate<Stock> paysDiv = stock -> stock.getDividends().getYield() > 0;
 
 
-
-
-    public List<Stock> getAllStocks(int size){
+    public List<Stock> getAllStocks(int size) {
         var data = stockList
                 .stream()
                 .limit(size).collect(Collectors.toList());
@@ -36,7 +35,7 @@ public class StockService {
         return data;
     }
 
-    public List<Stock> top10Dividends(){
+    public List<Stock> top10Dividends() {
 
         var rule = gtDiv100B.and(paysDiv); //functional coding to apply multiple rules using .and()
 
@@ -48,12 +47,12 @@ public class StockService {
         return data;
     }
 
-    public List<Stock> getStocksByMonthName(String monthName){
+    public List<Stock> getStocksByMonthName(String monthName) {
 
         Predicate<Stock> byMonth = stock -> {
             var months = stock.getDividends().getMonths();
             int monthNumber = CalculateMonthService.getMonthName(monthName);
-            boolean actual = stream(months).anyMatch( map -> map.containsKey(monthNumber));
+            boolean actual = stream(months).anyMatch(map -> map.containsKey(monthNumber));
 
             return actual;
         };
@@ -66,12 +65,12 @@ public class StockService {
         return data;
     }
 
-    public List<Stock> getStocksByMonthNumber(int monthNumber){
+    public List<Stock> getStocksByMonthNumber(int monthNumber) {
 
         Predicate<Stock> byMonth = stock -> {
             var months = stock.getDividends().getMonths();
-            int month = CalculateMonthService.getMonthNum(monthNumber);
-            boolean actual = stream(months).anyMatch( map -> map.containsValue(monthNumber));
+            //int monthNum = CalculateMonthService.getMonthNum(monthNumber);
+            boolean actual = stream(months).anyMatch(map -> map.containsKey(monthNumber));
 
             return actual;
         };
@@ -86,5 +85,22 @@ public class StockService {
 
     //monthcode = 2048 have to do binary thing, monthNumber just containskey/containsvalue through the hashmap
 
+    public List<Stock> getStocksByMonthCode(Integer monthCode) {
 
-}
+        Predicate<Stock> byMonth = stock -> {
+            var months = stock.getDividends().getMonths();
+            int monthNumber = CalculateMonthService.getMonthNameByCode(monthCode);
+            boolean actual = stream(months).anyMatch(map -> map.containsKey(monthNumber));
+
+            return actual;
+        };
+
+        var data = stockList
+                .stream()
+                .filter(byMonth)
+                .collect(Collectors.toList());
+
+        return data;
+    }
+    }
+

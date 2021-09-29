@@ -35,31 +35,51 @@ public class StockController {
         return data;
     }
 
-
+    /*
     //"/sp500/whatif-monthly-dividends?monthName=Jan"
     @GetMapping("whatif-monthly-dividends")
     List<Stock> whatIfMonthlyDividends (@RequestParam(defaultValue = "Jan") String monthName){
         var data = stockService.getStocksByMonthName(monthName);
         return data;
+
+        //,@RequestParam(required = false, defaultValue = "1") int monthNumber)
     }
 
-    /*/sp500/whatif-monthly-dividends?monthcode=2048
+    //sp500/whatif-monthly-dividends?monthcode=2048
     @GetMapping("whatif-monthly-dividends")
     List<Stock> whatIfMonthlyDividends (@RequestParam(defaultValue = "2048") Integer monthCode ){
-        var data = stockService.getStocksByMonthName(monthCode);
+        var data = stockService.getStocksByMonthCode(monthCode);
         return data;
-    }*/
+    }
+
+    */
 
     /*
+
     ///sp500/whatif-monthly-dividends?monthNumber=3
-    @GetMapping("whatif-monthly-dividends")
-    List<Stock> whatIfMonthlyDividends (@RequestParam(defaultValue = "1") int monthNumber ){
+    @GetMapping("whatif")
+    List<Stock> whatIfMonthlyDividends (@RequestParam(required = false, defaultValue = "0") int monthNumber ){
         var data = stockService.getStocksByMonthNumber(monthNumber);
         return data;
     }
+    */
 
-   
-     */
+
+
+
+
+    //"/sp500/whatif-monthly-dividends?monthName=Jan"
+    @GetMapping("whatif-monthly-dividends")
+    List<Stock> whatIfMonthlyDividends (@RequestParam(required = false) String monthName,
+                                        @RequestParam(required = false, defaultValue = "0") int monthCode,
+                                        @RequestParam(required = false, defaultValue = "0") int monthNumber){
+
+        if (monthName !=null)
+            return stockService.getStocksByMonthName(monthName);
+        else if (monthNumber != 0 )
+            return stockService.getStocksByMonthNumber(monthNumber);
+        else return stockService.getStocksByMonthCode(monthCode);
+    }
 
 
 
